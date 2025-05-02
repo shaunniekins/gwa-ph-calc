@@ -1,36 +1,35 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# GWA Calculator (Philippines)
 
-## Getting Started
+A web application that helps students calculate their General Weighted Average (GWA) following the common grading system used in Philippine universities.
 
-First, run the development server:
+## About
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+The GWA Calculator is designed to help students easily compute their General Weighted Average by entering their subjects, corresponding units, and grades. The calculation follows the standard formula:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### GWA Formula
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+GWA = Σ (Grade × Units) / Σ Units
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Features
 
-## Learn More
+- Add and manage multiple subjects with their respective units and grades
+- Drag and drop functionality to reorder subjects
+- Automatic calculation of GWA as you add or remove subjects
+- Persistent storage using localStorage to save your subject data
+- Responsive design that works well on both desktop and mobile devices
 
-To learn more about Next.js, take a look at the following resources:
+## How to Use
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. **Add Subjects**: Enter the subject name, number of units, and your grade in the form
+2. **View Your Subjects**: All added subjects will appear in the table below
+3. **Rearrange Subjects**: Drag and drop to reorder your subject list
+4. **Remove Subjects**: Click the "Remove" button to delete a subject
+5. **Check Your GWA**: Your calculated GWA is displayed prominently in the result section
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Technical Details
 
-## Deploy on Vercel
+This application is built with:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [Next.js](https://nextjs.org/) - React framework
+- [React](https://reactjs.org/) - JavaScript library for building user interfaces
+- [@hello-pangea/dnd](https://github.com/hello-pangea/dnd) - Drag and drop library
