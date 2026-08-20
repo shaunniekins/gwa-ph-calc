@@ -162,7 +162,7 @@ export default function Home() {
             }));
             setSubjects(processedSubjects);
           }
-        } catch (err) {
+        } catch {
           alert("Invalid file format");
         }
       };
@@ -272,7 +272,7 @@ export default function Home() {
             <article className="bg-indigo-50/50 p-4 rounded-xl border border-indigo-100/50">
               <h3 className="text-xs font-bold text-gray-800 mb-2 uppercase tracking-wide">How is GWA Calculated?</h3>
               <p className="text-xs text-gray-600 leading-relaxed mb-3">
-                In the Philippines, your General Weighted Average (GWA) is calculated by multiplying each subject's grade by its units, summing them all up, and dividing by your total units.
+                In the Philippines, your General Weighted Average (GWA) is calculated by multiplying each subject&apos;s grade by its units, summing them all up, and dividing by your total units.
               </p>
               <div className="bg-white p-2 rounded-lg border border-indigo-100 text-center font-mono text-[10px] text-gray-700 shadow-sm">
                 GWA = Σ (Grade × Units) / Σ Units
@@ -291,7 +291,7 @@ export default function Home() {
             <h2 className="text-xl md:text-2xl font-bold text-gray-800">Your Subjects</h2>
             {subjects.length > 0 && (
               <span className="text-xs font-bold bg-white text-blue-600 py-1 px-3 rounded-full shadow-sm border border-gray-100">
-                {subjects.length} item{subjects.length !== 1 && 's'}
+                {subjects.length} item{subjects.length !== 1 && "s"}
               </span>
             )}
           </div>
