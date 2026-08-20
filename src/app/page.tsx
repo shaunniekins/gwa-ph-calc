@@ -211,7 +211,7 @@ export default function Home() {
           </div>
 
           {/* Add Subject Form */}
-          <div className="flex-1">
+          <div className="flex-none">
             <h2 className="text-lg font-bold mb-4 text-gray-800 border-b border-gray-100 pb-2">Add New Subject</h2>
             <form onSubmit={addSubject} className="space-y-4">
               <div>
@@ -265,6 +265,19 @@ export default function Home() {
                 Add Subject
               </button>
             </form>
+          </div>
+
+          {/* Educational / AI Semantic Context */}
+          <div className="pt-2 mt-auto hidden md:block">
+            <article className="bg-indigo-50/50 p-4 rounded-xl border border-indigo-100/50">
+              <h3 className="text-xs font-bold text-gray-800 mb-2 uppercase tracking-wide">How is GWA Calculated?</h3>
+              <p className="text-xs text-gray-600 leading-relaxed mb-3">
+                In the Philippines, your General Weighted Average (GWA) is calculated by multiplying each subject's grade by its units, summing them all up, and dividing by your total units.
+              </p>
+              <div className="bg-white p-2 rounded-lg border border-indigo-100 text-center font-mono text-[10px] text-gray-700 shadow-sm">
+                GWA = Σ (Grade × Units) / Σ Units
+              </div>
+            </article>
           </div>
         </div>
       </aside>

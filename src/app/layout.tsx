@@ -13,12 +13,74 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "GWA Calculator (Philippines)",
+  metadataBase: new URL("https://gwaphcalc.shaunniekins.com"),
+  title: {
+    default: "GWA Calculator Philippines | Compute Your General Weighted Average",
+    template: "%s | GWA Calculator"
+  },
   description:
-    "Calculate your General Weighted Average (GWA) using the Philippine grading system",
+    "The most accurate General Weighted Average (GWA) calculator for Philippine university students. Instantly compute your GWA, manage subjects, and save your data.",
+  keywords: ["GWA calculator", "GWA Philippines", "General Weighted Average", "college grade calculator", "UP grading system", "calculate GWA", "academic grading"],
+  authors: [{ name: "Shaunniekins" }],
+  openGraph: {
+    title: "GWA Calculator Philippines",
+    description: "Instantly compute your General Weighted Average (GWA). Built for Philippine university students.",
+    url: "https://gwaphcalc.shaunniekins.com",
+    siteName: "GWA Calculator",
+    locale: "en_PH",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "GWA Calculator Philippines",
+    description: "Instantly compute your General Weighted Average (GWA). Built for Philippine university students.",
+  },
   icons: {
     icon: "/favicon.ico",
   },
+  alternates: {
+    canonical: "/",
+  }
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "GWA Calculator Philippines",
+      "url": "https://gwaphcalc.shaunniekins.com",
+      "description": "Calculate your General Weighted Average (GWA) effortlessly for Philippine universities.",
+      "applicationCategory": "EducationalApplication",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "PHP"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How is GWA calculated in the Philippines?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "General Weighted Average (GWA) is calculated by multiplying the grade of each subject by its corresponding units, summing these products, and then dividing the total by the total number of units. The formula is GWA = Σ (Grade × Units) / Σ Units."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is a passing GWA in the Philippines?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "In the standard Philippine grading system (1.0 to 5.0), a grade of 3.0 is usually the passing mark, while 1.0 is the highest possible grade (Excellent). A grade of 5.0 indicates a failure."
+          }
+        }
+      ]
+    }
+  ]
 };
 
 export default function RootLayout({
@@ -28,6 +90,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen md:h-[100svh] flex flex-col md:overflow-hidden`}
       >
