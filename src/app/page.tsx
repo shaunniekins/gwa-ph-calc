@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import {
   DragDropContext,
   Droppable,
@@ -26,21 +26,38 @@ export default function Home() {
     units: 0,
     grade: 0,
   });
-  const [gwa, setGwa] = useState<number | null>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
   const [editingSubjectId, setEditingSubjectId] = useState<string | null>(null);
   const [editFormData, setEditFormData] = useState<Subject | null>(null);
+
+  const gwa = useMemo(() => {
+    if (subjects.length === 0) return null;
+    let totalWeightedGrade = 0;
+    let totalUnits = 0;
+    subjects.forEach((subject) => {
+      totalWeightedGrade += subject.grade * subject.units;
+      totalUnits += subject.units;
+    });
+    return totalWeightedGrade / totalUnits;
+  }, [subjects]);
 
   useEffect(() => {
     const savedSubjects = localStorage.getItem("gwaSubjects");
     if (savedSubjects) {
-      setSubjects(JSON.parse(savedSubjects));
+      try {
+        setSubjects(JSON.parse(savedSubjects));
+      } catch (e) {
+        console.error("Error parsing saved subjects", e);
+      }
     }
+    setIsLoaded(true);
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("gwaSubjects", JSON.stringify(subjects));
-    calculateGWA();
-  }, [subjects]);
+    if (isLoaded) {
+      localStorage.setItem("gwaSubjects", JSON.stringify(subjects));
+    }
+  }, [subjects, isLoaded]);
 
   const addSubject = (e: React.FormEvent) => {
     e.preventDefault();
@@ -58,23 +75,6 @@ export default function Home() {
 
   const removeSubject = (id: string) => {
     setSubjects(subjects.filter((subject) => subject.id !== id));
-  };
-
-  const calculateGWA = () => {
-    if (subjects.length === 0) {
-      setGwa(null);
-      return;
-    }
-
-    let totalWeightedGrade = 0;
-    let totalUnits = 0;
-
-    subjects.forEach((subject) => {
-      totalWeightedGrade += subject.grade * subject.units;
-      totalUnits += subject.units;
-    });
-
-    setGwa(totalWeightedGrade / totalUnits);
   };
 
   const handleEditClick = (subject: Subject) => {
@@ -128,6 +128,45 @@ export default function Home() {
     reorderedSubjects.splice(result.destination.index, 0, removed);
 
     setSubjects(reorderedSubjects);
+  };
+
+  const handleExport = () => {
+    const dataStr = JSON.stringify(subjects, null, 2);
+    const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+    const exportFileDefaultName = 'gwa-subjects.json';
+
+    const linkElement = document.createElement('a');
+    linkElement.setAttribute('href', dataUri);
+    linkElement.setAttribute('download', exportFileDefaultName);
+    linkElement.click();
+  };
+
+  const handleImport = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const fileReader = new FileReader();
+    if (e.target.files && e.target.files[0]) {
+      fileReader.readAsText(e.target.files[0], "UTF-8");
+      fileReader.onload = (e) => {
+        try {
+          const content = e.target?.result as string;
+          const parsed = JSON.parse(content);
+          if (Array.isArray(parsed)) {
+            // Give each imported subject a valid format
+            const processedSubjects = parsed.map(subject => ({
+              ...subject,
+              id: subject.id || crypto.randomUUID(),
+              units: Number(subject.units) || 0,
+              grade: Number(subject.grade) || 0,
+            }));
+            setSubjects(processedSubjects);
+          }
+        } catch (err) {
+          alert("Invalid file format");
+        }
+      };
+      
+      // Reset input so the same file can be selected again
+      e.target.value = "";
+    }
   };
 
   return (
@@ -257,13 +296,47 @@ export default function Home() {
       </div>
 
       <div className="mt-10 bg-white p-8 rounded-xl shadow-sm border border-gray-100 transition-all hover:shadow-md">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-gray-800">Subject List</h2>
-          {subjects.length > 0 && (
-            <span className="text-sm bg-blue-100 text-blue-800 py-1 px-3 rounded-full font-medium">
-              {subjects.length} {subjects.length === 1 ? "subject" : "subjects"}
-            </span>
-          )}
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+          <div className="flex items-center gap-4">
+            <h2 className="text-2xl font-bold text-gray-800">Subject List</h2>
+            {subjects.length > 0 && (
+              <span className="text-sm bg-blue-100 text-blue-800 py-1 px-3 rounded-full font-medium">
+                {subjects.length} {subjects.length === 1 ? "subject" : "subjects"}
+              </span>
+            )}
+          </div>
+          <div className="flex gap-2">
+            <input 
+              type="file" 
+              accept=".json" 
+              onChange={handleImport} 
+              className="hidden" 
+              id="import-file" 
+            />
+            <label 
+              htmlFor="import-file"
+              className="cursor-pointer bg-gray-100 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-200 transition-colors text-sm font-medium flex items-center"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+              </svg>
+              Import
+            </label>
+            <button 
+              onClick={handleExport}
+              disabled={subjects.length === 0}
+              className={`py-2 px-4 rounded-md transition-colors text-sm font-medium flex items-center ${
+                subjects.length === 0 
+                  ? "bg-gray-100 text-gray-400 cursor-not-allowed" 
+                  : "bg-blue-100 text-blue-700 hover:bg-blue-200"
+              }`}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+              </svg>
+              Export
+            </button>
+          </div>
         </div>
         {subjects.length > 0 ? (
           <div className="overflow-x-auto -mx-8">
