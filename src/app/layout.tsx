@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -21,7 +22,15 @@ export const metadata: Metadata = {
   description:
     "The most accurate General Weighted Average (GWA) calculator for Philippine university students. Instantly compute your GWA, manage subjects, and save your data.",
   keywords: ["GWA calculator", "GWA Philippines", "General Weighted Average", "college grade calculator", "UP grading system", "calculate GWA", "academic grading"],
-  authors: [{ name: "Shaunniekins" }],
+  authors: [{ name: "Shaunniekins", url: "https://shaunniekins.com" }],
+  creator: "Shaunniekins",
+  applicationName: "GWA Calculator Philippines",
+  category: "education",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large" },
+  },
   openGraph: {
     title: "GWA Calculator Philippines",
     description: "Instantly compute your General Weighted Average (GWA). Built for Philippine university students.",
@@ -50,6 +59,7 @@ const jsonLd = {
       "@type": "WebApplication",
       "name": "GWA Calculator Philippines",
       "url": "https://gwaphcalc.shaunniekins.com",
+      "author": { "@type": "Person", "name": "Shaunniekins", "url": "https://shaunniekins.com", "sameAs": ["https://github.com/shaunniekins"] },
       "description": "Calculate your General Weighted Average (GWA) effortlessly for Philippine universities.",
       "applicationCategory": "EducationalApplication",
       "operatingSystem": "All",
@@ -131,6 +141,7 @@ export default function RootLayout({
             </p>
           </div>
         </footer>
+        <Analytics />
       </body>
     </html>
   );

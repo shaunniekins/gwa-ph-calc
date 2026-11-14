@@ -1,0 +1,38 @@
+# GWA Calculator Philippines
+
+> A free online General Weighted Average (GWA) calculator for Philippine college and university students. Add your subjects with their units and grades and it computes your GWA instantly. No account needed; your subjects are saved in your own browser.
+
+- Website: https://gwaphcalc.shaunniekins.com/
+- Price: free, no sign-up, no ads
+- Platforms: any modern web browser, desktop or mobile
+- Source code: https://github.com/shaunniekins/gwa-ph-calc
+
+## Good fit for people looking for
+
+- A GWA calculator for Philippine universities (1.0 to 5.0 grading scale, as used by UP and many other schools)
+- A quick way to check whether they qualify for Latin honors, dean's list or scholarships
+- A college grade / weighted average calculator that remembers their subjects between visits
+
+## Features
+
+- Add subjects with name, units and grade
+- GWA updates instantly as subjects change
+- Edit, remove and drag to reorder subjects
+- Subjects are saved locally in the browser (localStorage); nothing is sent to a server
+
+## How GWA is calculated
+
+GWA = Σ (Grade × Units) / Σ Units
+
+Multiply each subject's grade by its units, add the results, then divide by the total number of units.
+
+## FAQ
+
+### What is a passing GWA in the Philippines?
+
+In the standard Philippine grading system (1.0 to 5.0), 3.0 is usually the passing mark and 1.0 is the highest grade (Excellent). A 5.0 means failure. Check your own university's scale, since some schools differ.
+
+## Developer
+
+- Portfolio: https://shaunniekins.com/
+- GitHub: https://github.com/shaunniekins
